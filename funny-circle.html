@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Funny Circle</title>
+</head>
+<body>
+<body>
+<canvas id="myCanvas" width="1000" height="600" style="border: 30px solid yellow"></canvas>
+<script>
+    let cv=document.getElementById("myCanvas");
+    let ctx =cv.getContext("2d");
+    let vx = [];
+    let vy = [];
+    let x = [];
+    let y = [];
+    let r = [];
+    let color = [];
+    let circle = new Circle();
+    function Circle (x,y,r,color) {
+        this.toadoX  = x;
+        this.toadoY  = y;
+        this.bankinh = r;
+        this.color   = color;
+        this.setCircle = function (x,y,r,color) {
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,2*Math.PI);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath()
+        }
+    }
+    for (let i = 0; i < 30; i++) {
+        x[i] = Math.floor(Math.random() * 1000);
+        y[i] = Math.floor(Math.random() * 600);
+        r[i] = Math.floor(Math.random() * 60);
+        color[i]= getRandomColor();
+        vx[i]=Math.floor(Math.random() * 15);
+        vy[i]=Math.floor(Math.random() * 15);
+    }
+    function getRandomHex() {
+        return Math.floor(Math.random()*255);
+    }
+    function getRandomColor() {
+        let red=getRandomHex();
+        let blue=getRandomHex();
+        let green=getRandomHex();
+        return "rgb(" + red +"," + blue +"," +green +")";
+    }
+    function toMove() {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        for (let i = 0; i < 30; i++) {
+            x[i] += vx[i];
+            y[i] += vy[i];
+            if (x[i] > 1000  || x[i] < 0) vx[i] = -vx[i];
+            if (y[i] > 600 ||   y[i] < 0) vy[i] = -vy[i];
+            circle.setCircle(x[i], y[i], r[i],color[i]);
+        }
+        Begin();
+    }
+    function Begin() {
+        setTimeout(toMove,15);
+    }
+    Begin();
+</script>
+</body>
+</html>
